@@ -19,9 +19,14 @@ app.add_middleware(
 def get_root():
     return { "Ping": "Pong" }
 
+@app.get("/api/get-user{nanoid}", response_model=UserModel)
+async def get_user(nanoid): 
+    userSearched = await fetch_one_user(nanoid)
+    if not userSearched: return HTTPException(500, "Internal server error searching user")
+    return userSearched
+
 @app.put("/api/add-user{user: UserModel}", response_model=UserModel)
 async def add_user(user: UserModel):
     userCreated = await create_user(user)
-    if (not userCreated): return HTTPException(500, "Internal server error while creating user");
+    if not userCreated: return HTTPException(500, "Internal server error while creating user")
     return userCreated
-    
