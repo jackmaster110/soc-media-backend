@@ -1,9 +1,12 @@
+from pymongo.cursor import Cursor
 from models import PostModel, UserModel
 import motor.motor_asyncio
 from dotenv import dotenv_values
+import os
 
 config = dotenv_values(".env")
 DATABASE_URI = config.get("DATABASE_URI")
+if os.getenv("DATABASE_URI"): DATABASE_URI = os.getenv("DATABASE_URI")
 
 client = motor.motor_asyncio.AsyncIOMotorClient(DATABASE_URI)
 
@@ -51,3 +54,15 @@ async def create_post(post: PostModel):
     postsCollection.insert_one(document)
     result = await fetch_one_post(post.nanoid)
     return result 
+
+async def create_comment(reply: PostModel, nanoid: str):
+    postsCollection.insert_one(reply.dict())
+    result = await fetch_one_post(reply.nanoid)
+    return result
+
+async def fetch_all_replies(nanoid: str):
+    replies = []
+    postList = await fetch_all_posts()
+    for post in postList:
+        if post.dict().get("isReply") and post.dict().get("replyTo") == nanoid: replies.append(PostModel(**post.dict()))
+    return replies

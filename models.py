@@ -10,5 +10,5 @@ class PostModel(BaseModel):
     nanoid: str
     post: str
     user: str
-    replies: dict
+    replyTo: str
     isReply: bool
