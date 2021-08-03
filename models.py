@@ -5,11 +5,10 @@ class UserModel(BaseModel):
     name: str
     username: str
     password: str
-    posts: list
 
 class PostModel(BaseModel):
     nanoid: str
     post: str
-    user: UserModel
+    user: str
     replies: dict
     isReply: bool
