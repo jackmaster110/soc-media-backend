@@ -5,7 +5,7 @@ from fastapi import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from database import *
 
-origins = ["http://localhost:3000", "http://localhost", "http://localhost:5000"]
+origins = ["http://localhost:3000", "http://localhost", "http://localhost:5000", "*"]
 
 app = fast()
 
