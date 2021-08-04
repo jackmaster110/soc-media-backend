@@ -16,7 +16,7 @@ postsCollection = database.posts
 
 async def fetch_all_users():
     users = []
-    cursor = await usersCollection.find()
+    cursor = usersCollection.find()
     async for document in cursor:
         users.append(UserModel(**document))
     return users
