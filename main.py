@@ -74,7 +74,7 @@ async def add_post(post: PostModel):
     if not postCreated: raise HTTPException(500, "Internal server error while creating post")
     return postCreated
 
-@app.put("/api/add-reply/{nanoid}")
+@app.post("/api/add-reply/{nanoid}")
 async def add_reply(reply: PostModel, nanoid: str):
     postUpdated = await create_comment(reply, nanoid)
     if not postUpdated: raise HTTPException(500, "Internal server error while creating reply")
